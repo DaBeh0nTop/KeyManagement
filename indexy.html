@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>KeyVault Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:      #0e100e;
+  --s0:      #141814;
+  --s1:      #1c221b;
+  --s2:      #232c22;
+  --border:  #2e3d2c;
+  --cream:   #e8e0c8;
+  --sage:    #8fc47a;
+  --lime:    #b5e880;
+  --sky:     #7ec8e3;
+  --red:     #ff6b6b;
+  --warn:    #ffd166;
+  --muted:   #5a7055;
+  --text:    #ddd8c4;
+  --display: 'Fredoka One', cursive;
+  --body:    'Nunito', sans-serif;
+  --r:       14px;
+  --r-sm:    8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:14px;
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 80% 10%, rgba(143,196,122,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 10% 90%, rgba(126,200,227,.04) 0%, transparent 60%);
+}
+
+/* ════════════════════ LOGIN ════════════════════ */
+#login{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:16px;
+}
+
+.login-card{
+  width:400px;
+  background:var(--s1);
+  border:2.5px solid var(--border);
+  border-radius:24px;
+  padding:40px 44px 36px;
+  position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(143,196,122,.05);
+  animation:popIn .4s cubic-bezier(.34,1.56,.64,1);
+}
+
+.login-eyes{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+.eye{
+  width:52px;height:52px;
+  border-radius:50%;
+  background:var(--cream);
+  border:3px solid #2a1a08;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+}
+.pupil{
+  width:28px;height:28px;
+  border-radius:50%;
+  background:#0e100e;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-40%,-40%);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.5);
+}
+.eye-shine{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  position:absolute;
+  top:8px;left:10px;
+}
+
+.login-title{
+  font-family:var(--display);
+  font-size:26px;
+  text-align:center;
+  color:var(--cream);
+  margin-bottom:4px;
+  letter-spacing:.02em;
+}
+.login-sub{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:28px;
+  font-weight:600;
+}
+
+.field-label{
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  margin-bottom:6px;
+  display:block;
+}
+
+.field-input{
+  width:100%;
+  background:var(--s0);
+  border:2px solid var(--border);
+  border-radius:var(--r-sm);
+  color:var(--cream);
+  font-family:var(--body);
+  font-size:13px;
+  font-weight:600;
+  padding:10px 14px;
+  margin-bottom:14px;
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.field-input:focus{
+  border-color:var(--sage);
+  box-shadow:0 0 0 3px rgba(143,196,122,.15);
+}
+
+.remember{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:20px;cursor:pointer;
+  font-size:12px;color:var(--muted);font-weight:700;
+}
+.remember input{accent-color:var(--sage);width:14px;height:14px;cursor:pointer}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;
+  border-radius:var(--r-sm);
+  border:2px solid transparent;
+  font-family:var(--body);font-size:13px;font-weight:800;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.btn-primary{
+  background:var(--sage);color:#0a1a08;
+  border-color:var(--sage);
+}
+.btn-primary:hover{background:var(--lime);border-color:var(--lime);transform:translateY(-1px);box-shadow:0 4px 12px rgba(143,196,122,.3)}
+.btn-primary:active{transform:translateY(0)}
+.btn-ghost{
+  background:transparent;color:var(--text);
+  border-color:var(--border);
+}
+.btn-ghost:hover{border-color:var(--sage);color:var(--sage)}
+.btn-danger{background:transparent;color:var(--muted);border-color:transparent}
+.btn-danger:hover{color:var(--red);border-color:var(--red)}
+.btn-warn:hover{color:var(--warn);border-color:var(--warn)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-full{width:100%}
+
+.login-err{color:var(--red);font-size:12px;font-weight:700;margin-top:10px;display:none;text-align:center}
+
+.invite-badge{
+  font-size:11px;color:var(--sky);font-weight:700;
+  text-align:center;
+  background:rgba(126,200,227,.08);
+  border:1px solid rgba(126,200,227,.2);
+  border-radius:var(--r-sm);
+  padding:6px 12px;
+}
+
+/* ════════════════════ APP LAYOUT ════════════════════ */
+#app{display:none;min-height:100vh}
+.layout{display:flex;min-height:100vh}
+
+/* ── Sidebar ── */
+aside{
+  width:230px;flex-shrink:0;
+  background:var(--s1);
+  border-right:2px solid var(--border);
+  display:flex;flex-direction:column;
+  padding:24px 0;
+  position:sticky;top:0;height:100vh;
+}
+
+.brand{
+  padding:0 22px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:8px;
+}
+.brand-name{
+  font-family:var(--display);
+  font-size:22px;
+  color:var(--cream);
+  letter-spacing:.02em;
+  line-height:1;
+}
+.brand-tag{
+  font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.12em;
+  color:var(--muted);margin-top:3px;
+}
+
+.live-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:800;
+  color:var(--sage);
+  padding:3px 10px;
+  background:rgba(143,196,122,.1);
+  border:1px solid rgba(143,196,122,.25);
+  border-radius:99px;
+  margin:8px 22px 12px;
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--sage);
+  animation:livePulse 2s ease infinite;
+}
+
+nav{flex:1}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 22px;
+  color:var(--muted);font-size:13px;font-weight:700;
+  cursor:pointer;
+  border-left:3px solid transparent;
+  border-radius:0;
+  transition:all .15s;
+  text-decoration:none;
+  position:relative;
+}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.nav-item.active{color:var(--sage);border-left-color:var(--sage);background:rgba(143,196,122,.06)}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+.nav-badge{
+  margin-left:auto;
+  background:var(--s2);border:1px solid var(--border);
+  border-radius:99px;
+  font-size:10px;font-weight:800;
+  padding:1px 7px;color:var(--muted);
+}
+
+.sidebar-user{
+  margin:0 12px;
+  padding:12px 14px;
+  background:var(--s2);
+  border:1.5px solid var(--border);
+  border-radius:var(--r-sm);
+}
+.sidebar-user-name{font-size:13px;font-weight:800;color:var(--cream)}
+.sidebar-user-role{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.sidebar-bottom{padding:16px 12px 0;border-top:1px solid var(--border);margin-top:auto;display:flex;flex-direction:column;gap:8px}
+
+/* ── Main ── */
+main{flex:1;padding:36px 40px;overflow-y:auto;min-width:0}
+
+.page{display:none;animation:fadeUp .2s ease}
+.page.active{display:block}
+
+.page-hd{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:28px;
+}
+.page-title{font-family:var(--display);font-size:28px;color:var(--cream);letter-spacing:.01em;line-height:1}
+.page-sub{font-size:12px;color:var(--muted);font-weight:700;margin-top:5px}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.stat-card{
+  background:var(--s1);
+  border:2px solid var(--border);
+  border-radius:var(--r);
+  padding:20px 22px;
+  display:flex;align-items:center;gap:16px;
+  transition:border-color .2s;
+}
+.stat-card:hover{border-color:rgba(143,196,122,.3)}
+.stat-icon{
+  font-size:26px;
+  width:50px;height:50px;
+  background:var(--s2);border:1.5px solid var(--border);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.stat-val{font-family:var(--display);font-size:30px;color:var(--cream);line-height:1}
+.stat-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:3px}
+
+/* ── Table ── */
+.table-wrap{
+  background:var(--s1);
+  border:2px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+}
+.table-toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1.5px solid var(--border);
+}
+.table-toolbar-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+
+table{width:100%;border-collapse:collapse;font-family:var(--body);font-size:13px}
+thead tr{border-bottom:1.5px solid var(--border)}
+th{
+  text-align:left;padding:11px 16px;
+  font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--muted);font-weight:800;
+}
+td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.035);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+
+.key-mono{
+  font-family:var(--body);font-weight:800;
+  color:var(--lime);letter-spacing:.04em;font-size:12.5px;
+}
+.created-by-tag{
+  font-size:10px;font-weight:800;
+  color:var(--sky);margin-top:3px;
+  display:flex;align-items:center;gap:4px;
+}
+
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;padding:3px 9px;border-radius:99px;
+  font-weight:800;text-transform:uppercase;letter-spacing:.07em;
+}
+.badge-active{background:rgba(143,196,122,.15);color:var(--sage);border:1px solid rgba(143,196,122,.3)}
+.badge-suspended{background:rgba(255,107,107,.12);color:var(--red);border:1px solid rgba(255,107,107,.25)}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+.slot-wrap{display:flex;align-items:center;gap:8px}
+.slot-bar{width:56px;height:5px;background:var(--s2);border-radius:99px;overflow:hidden;border:1px solid var(--border)}
+.slot-fill{height:100%;background:var(--sage);border-radius:99px;transition:width .4s}
+.slot-fill.full{background:var(--red)}
+.slot-text{font-size:12px;font-weight:800;color:var(--text)}
+
+.actions{display:flex;gap:5px}
+
+/* ── Empty / loading ── */
+.empty{text-align:center;padding:52px;color:var(--muted);font-weight:700}
+.empty-icon{font-size:36px;margin-bottom:10px}
+.spinner{
+  width:22px;height:22px;
+  border:2.5px solid var(--border);
+  border-top-color:var(--sage);
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  margin:0 auto 12px;
+}
+
+/* ── Devices lookup ── */
+.lookup-bar{display:flex;gap:10px;margin-bottom:20px}
+.lookup-input{
+  flex:1;background:var(--s1);
+  border:2px solid var(--border);border-radius:var(--r-sm);
+  color:var(--cream);font-family:var(--body);
+  font-size:13px;font-weight:600;padding:10px 14px;outline:none;
+  transition:border-color .2s;
+}
+.lookup-input:focus{border-color:var(--sage)}
+
+.device-card{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;
+  background:var(--s1);border:2px solid var(--border);border-radius:var(--r-sm);
+  margin-bottom:8px;
+  transition:border-color .2s;
+}
+.device-card:hover{border-color:rgba(143,196,122,.3)}
+.device-ico{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--s2);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.device-name{font-size:13px;font-weight:800;color:var(--cream)}
+.device-hwid{font-size:10px;color:var(--muted);font-weight:700;margin-top:2px;font-family:monospace}
+.device-date{font-size:11px;font-weight:700;color:var(--muted);margin-left:auto;white-space:nowrap}
+
+/* ── Team page ── */
+.invite-hero{
+  background:var(--s1);
+  border:2px solid var(--border);
+  border-radius:var(--r);
+  padding:28px 32px;
+  margin-bottom:24px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;
+  background-image:radial-gradient(ellipse 50% 80% at 100% 50%, rgba(126,200,227,.04), transparent);
+}
+.invite-hero-text h3{font-family:var(--display);font-size:20px;color:var(--cream);margin-bottom:6px}
+.invite-hero-text p{font-size:12px;color:var(--muted);font-weight:700;max-width:340px;line-height:1.6}
+
+.member-card{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;
+  background:var(--s1);border:2px solid var(--border);border-radius:var(--r-sm);
+  margin-bottom:8px;
+  transition:border-color .2s;
+}
+.member-card:hover{border-color:rgba(126,200,227,.3)}
+.member-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg, var(--s2), var(--border));
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:17px;color:var(--cream);
+  flex-shrink:0;
+}
+.member-name{font-size:14px;font-weight:800;color:var(--cream)}
+.member-meta{font-size:11px;color:var(--muted);font-weight:700;margin-top:2px}
+.member-keys{margin-left:auto;text-align:right}
+.member-key-count{font-family:var(--display);font-size:20px;color:var(--sky)}
+.member-key-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+
+/* ── Invite link box ── */
+.link-box{
+  display:flex;gap:8px;margin-top:16px;
+}
+.link-input{
+  flex:1;background:var(--s0);
+  border:2px solid var(--sage);border-radius:var(--r-sm);
+  color:var(--lime);font-family:monospace;
+  font-size:11px;font-weight:700;padding:10px 14px;outline:none;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* ════════════════════ MODAL ════════════════════ */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;
+  opacity:0;pointer-events:none;
+  transition:opacity .2s;
+}
+.overlay.open{opacity:1;pointer-events:all}
+
+.modal{
+  background:var(--s1);
+  border:2.5px solid var(--border);
+  border-radius:20px;
+  padding:32px 36px;
+  width:440px;
+  transform:translateY(12px) scale(.98);
+  transition:transform .25s cubic-bezier(.34,1.3,.64,1);
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+}
+.overlay.open .modal{transform:translateY(0) scale(1)}
+
+.modal-title{
+  font-family:var(--display);font-size:22px;
+  color:var(--cream);margin-bottom:20px;
+}
+.form-group{margin-bottom:14px}
+.form-group label{
+  display:block;font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);margin-bottom:6px;
+}
+.form-group input, .form-group select{
+  width:100%;background:var(--s0);
+  border:2px solid var(--border);border-radius:var(--r-sm);
+  color:var(--cream);font-family:var(--body);
+  font-size:13px;font-weight:600;padding:9px 13px;outline:none;
+  transition:border-color .2s;
+}
+.form-group input:focus,.form-group select:focus{border-color:var(--sage)}
+.form-group select option{background:var(--s1)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:22px}
+
+/* ── Generated link inside modal ── */
+.gen-link-section{display:none;margin-top:16px}
+.gen-link-section.visible{display:block}
+.gen-link-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}
+
+/* ════════════════════ TOAST ════════════════════ */
+#toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--s1);
+  border:2px solid var(--sage);
+  border-radius:var(--r-sm);
+  color:var(--sage);
+  font-family:var(--body);font-size:13px;font-weight:800;
+  padding:12px 20px;
+  opacity:0;transform:translateY(10px);
+  transition:all .25s;pointer-events:none;z-index:200;
+  display:flex;align-items:center;gap:8px;
+}
+#toast.show{opacity:1;transform:translateY(0)}
+#toast.err{border-color:var(--red);color:var(--red)}
+
+/* ════════════════════ ANIMATIONS ════════════════════ */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes livePulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ── Misc ── */
+.tm{color:var(--muted)}
+.label-chip{
+  font-size:10px;font-weight:800;
+  background:var(--s2);border:1px solid var(--border);
+  border-radius:99px;padding:2px 8px;color:var(--muted);
+}
+</style>
+</head>
+<body>
+
+<!-- ════ LOGIN ════════════════════════════════════════════ -->
+<div id="login">
+  <div class="login-card">
+    <div class="login-eyes">
+      <div class="eye"><div class="pupil"></div><div class="eye-shine"></div></div>
+      <div class="eye"><div class="pupil"></div><div class="eye-shine"></div></div>
+    </div>
+    <div class="login-title">KeyVault</div>
+    <div class="login-sub">Admin Panel</div>
+
+    <div id="invite-notice" class="invite-badge" style="display:none;margin-bottom:18px"></div>
+
+    <label class="field-label">Supabase URL</label>
+    <input class="field-input" id="cfg-url" type="text" placeholder="https://xxxx.supabase.co"/>
+
+    <label class="field-label">Anon / Service Key</label>
+    <input class="field-input" id="cfg-key" type="password" placeholder="eyJhbGci…"/>
+
+    <label class="remember">
+      <input type="checkbox" id="cfg-remember" checked/>
+      Remember me
+    </label>
+
+    <button class="btn btn-primary btn-full" onclick="connect()">Connect →</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+  <div style="font-size:11px;color:var(--muted);font-weight:700">credentials saved to browser only</div>
+</div>
+
+<!-- ════ APP ══════════════════════════════════════════════ -->
+<div id="app">
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="brand">
+      <div class="brand-name">🔑 KeyVault</div>
+      <div class="brand-tag">Admin Panel</div>
+    </div>
+    <div class="live-pill"><div class="live-dot"></div>Live · 3s</div>
+    <nav>
+      <div class="nav-item active" id="nav-keys" onclick="showPage('keys')">
+        <span class="nav-icon">🗝️</span> License Keys
+        <span class="nav-badge" id="nav-keys-count">0</span>
+      </div>
+      <div class="nav-item" id="nav-devices" onclick="showPage('devices')">
+        <span class="nav-icon">💻</span> Devices
+      </div>
+      <div class="nav-item" id="nav-team" onclick="showPage('team')">
+        <span class="nav-icon">👥</span> Team
+        <span class="nav-badge" id="nav-team-count">0</span>
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-user">
+        <div class="sidebar-user-name" id="user-name-display">Admin</div>
+        <div class="sidebar-user-role" id="user-role-display">Owner</div>
+      </div>
+      <button class="btn btn-danger btn-full btn-sm" onclick="logout()">Disconnect</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+
+    <!-- ── Keys page ── -->
+    <div class="page active" id="page-keys">
+      <div class="page-hd">
+        <div>
+          <div class="page-title">License Keys</div>
+          <div class="page-sub">Manage keys, devices, and access</div>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-gen')">+ Generate Key</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-icon">🗝️</div>
+          <div><div class="stat-val" id="st-total">—</div><div class="stat-label">Total Keys</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div><div class="stat-val" id="st-active">—</div><div class="stat-label">Active</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🚫</div>
+          <div><div class="stat-val" id="st-suspended">—</div><div class="stat-label">Suspended</div></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="table-toolbar-title">All Keys</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Status</th>
+              <th>Devices</th>
+              <th>Label</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="keys-body">
+            <tr><td colspan="6"><div class="empty"><div class="spinner"></div>Loading…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Devices page ── -->
+    <div class="page" id="page-devices">
+      <div class="page-hd">
+        <div>
+          <div class="page-title">Devices</div>
+          <div class="page-sub">Look up registered devices for a key</div>
+        </div>
+      </div>
+      <div class="lookup-bar">
+        <input class="lookup-input" id="dev-input" placeholder="Paste a license key…"
+               onkeydown="if(event.key==='Enter')lookupDevices()"/>
+        <button class="btn btn-primary" onclick="lookupDevices()">Look Up</button>
+      </div>
+      <div id="device-list"></div>
+    </div>
+
+    <!-- ── Team page ── -->
+    <div class="page" id="page-team">
+      <div class="page-hd">
+        <div>
+          <div class="page-title">Team</div>
+          <div class="page-sub">Invite members to create and manage keys</div>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-invite')">+ Create Invite</button>
+      </div>
+
+      <div class="invite-hero">
+        <div class="invite-hero-text">
+          <h3>🔗 Invite your team</h3>
+          <p>Generate a magic link for each person. They open it in their browser — no URL or API key needed. All keys they create will be tagged with their name.</p>
+        </div>
+        <button class="btn btn-ghost" onclick="openModal('modal-invite')">Create Link →</button>
+      </div>
+
+      <div id="members-list">
+        <div class="empty"><div class="spinner"></div>Loading members…</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div>
+
+<!-- ════ MODAL: Generate Key ═════════════════════════════ -->
+<div class="overlay" id="modal-gen">
+  <div class="modal">
+    <div class="modal-title">🗝️ Generate Key</div>
+    <div class="form-group">
+      <label>Quantity</label>
+      <input id="gen-count" type="number" value="1" min="1" max="50"/>
+    </div>
+    <div class="form-group">
+      <label>Max Devices per Key</label>
+      <input id="gen-max" type="number" value="1" min="1" max="100"/>
+    </div>
+    <div class="form-group">
+      <label>Label (optional)</label>
+      <input id="gen-label" type="text" placeholder="e.g. beta, client-name"/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-gen')">Cancel</button>
+      <button class="btn btn-primary" onclick="generateKeys()">Generate</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: Create Invite ════════════════════════════ -->
+<div class="overlay" id="modal-invite">
+  <div class="modal">
+    <div class="modal-title">👥 Create Invite Link</div>
+    <div class="form-group">
+      <label>Member Name</label>
+      <input id="inv-name" type="text" placeholder="e.g. John, TeamAlpha, Dev01"/>
+    </div>
+    <p style="font-size:12px;color:var(--muted);font-weight:700;line-height:1.6">
+      This generates a link with your credentials embedded. Send it to the person — they'll be auto-connected as this name and can create keys tagged to them.
+    </p>
+    <div class="gen-link-section" id="gen-link-section">
+      <div class="gen-link-label">📋 Copy this link</div>
+      <div class="link-box">
+        <input class="link-input" id="gen-link-out" readonly onclick="this.select()"/>
+        <button class="btn btn-primary btn-sm" onclick="copyInviteLink()">Copy</button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-invite');resetInviteModal()">Close</button>
+      <button class="btn btn-primary" id="inv-gen-btn" onclick="createInviteLink()">Generate Link</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════ State ════════════════════════════════════════════════
+let SB_URL = '', SB_KEY = '';
+let currentUser = 'Admin';
+let isOwner     = true;   // false for invited members
+let refreshTimer = null;
+
+const LS_URL = 'kv_url';
+const LS_KEY = 'kv_key';
+
+// ════ On load ══════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  // Check for invite token in URL hash
+  const hash = location.hash;
+  if (hash.startsWith('#inv=')) {
+    try {
+      const data = JSON.parse(atob(hash.slice(5)));
+      document.getElementById('cfg-url').value = data.u || '';
+      document.getElementById('cfg-key').value = data.k || '';
+      currentUser = data.n || 'Member';
+      isOwner     = false;
+
+      const notice = document.getElementById('invite-notice');
+      notice.textContent = `🌿 You've been invited as "${currentUser}"`;
+      notice.style.display = 'block';
+
+      // Clear hash from URL bar (cosmetic)
+      history.replaceState(null, '', location.pathname);
+
+      // Auto-connect
+      connect(true);
+      return;
+    } catch(e) { /* bad token, fall through */ }
+  }
+
+  // Restore saved credentials
+  const su = localStorage.getItem(LS_URL);
+  const sk = localStorage.getItem(LS_KEY);
+  if (su) document.getElementById('cfg-url').value = su;
+  if (sk) document.getElementById('cfg-key').value = sk;
+  if (su && sk) connect(true);
+});
+
+// ════ Supabase REST helper ════════════════════════════════
+async function sb(table, opts = {}) {
+  const { method='GET', query='', body=null, prefer='' } = opts;
+  const url = `${SB_URL}/rest/v1/${table}${query ? '?'+query : ''}`;
+  const hdrs = {
+    'apikey':        SB_KEY,
+    'Authorization': 'Bearer '+SB_KEY,
+    'Content-Type':  'application/json',
+  };
+  if (prefer) hdrs['Prefer'] = prefer;
+  const res = await fetch(url, { method, headers: hdrs, body: body ? JSON.stringify(body) : undefined });
+  if (!res.ok) throw new Error(await res.text());
+  const t = await res.text();
+  return t ? JSON.parse(t) : [];
+}
+
+// ════ Auth ════════════════════════════════════════════════
+async function connect(silent = false) {
+  SB_URL = document.getElementById('cfg-url').value.trim().replace(/\/$/,'');
+  SB_KEY = document.getElementById('cfg-key').value.trim();
+  if (!SB_URL || !SB_KEY) { if (!silent) loginErr('Fill in both fields.'); return; }
+
+  try {
+    await sb('license_keys', { query: 'limit=1' });
+
+    if (document.getElementById('cfg-remember').checked) {
+      localStorage.setItem(LS_URL, SB_URL);
+      localStorage.setItem(LS_KEY, SB_KEY);
+    } else {
+      localStorage.removeItem(LS_URL);
+      localStorage.removeItem(LS_KEY);
+    }
+
+    document.getElementById('login').style.display  = 'none';
+    document.getElementById('app').style.display    = 'block';
+
+    // Update sidebar user info
+    document.getElementById('user-name-display').textContent = currentUser;
+    document.getElementById('user-role-display').textContent = isOwner ? 'Owner' : 'Member';
+
+    // Hide Team nav for non-owners
+    if (!isOwner) {
+      document.getElementById('nav-team').style.display = 'none';
+    }
+
+    loadKeys();
+    loadTeam();
+    startRefresh();
+  } catch(e) {
+    SB_URL = SB_KEY = '';
+    if (!silent) loginErr('Connection failed — check your URL and key.');
+    else document.getElementById('login').style.display = 'flex';
+  }
+}
+
+function logout() {
+  stopRefresh();
+  SB_URL = SB_KEY = '';
+  currentUser = 'Admin'; isOwner = true;
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('app').style.display   = 'none';
+}
+
+function loginErr(msg) {
+  const el = document.getElementById('login-err');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+// ════ Auto-refresh ════════════════════════════════════════
+function startRefresh() {
+  stopRefresh();
+  refreshTimer = setInterval(() => {
+    if (document.getElementById('page-keys').classList.contains('active')) loadKeys(true);
+    if (document.getElementById('page-team').classList.contains('active')) loadTeam(true);
+  }, 3000);
+}
+function stopRefresh() { if (refreshTimer) { clearInterval(refreshTimer); refreshTimer = null; } }
+
+// ════ Navigation ══════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+}
+
+// ════ Helpers ═════════════════════════════════════════════
+function genKey() {
+  const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return Array.from({length:4}, () =>
+    Array.from({length:5}, () => c[Math.floor(Math.random()*c.length)]).join('')
+  ).join('-');
+}
+
+function fmtDate(ts) {
+  return new Date(ts).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+}
+
+function initial(name) {
+  return (name || '?').charAt(0).toUpperCase();
+}
+
+// ════ Keys ═══════════════════════════════════════════════
+async function loadKeys(silent = false) {
+  const tbody = document.getElementById('keys-body');
+  if (!silent) tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="spinner"></div>Loading…</div></td></tr>';
+
+  try {
+    const [keys, devices] = await Promise.all([
+      sb('license_keys', { query: 'order=created_at.desc' }),
+      sb('devices',      { query: 'select=license_key' })
+    ]);
+
+    const counts = {};
+    devices.forEach(d => { counts[d.license_key] = (counts[d.license_key]||0)+1; });
+
+    const active    = keys.filter(k=>k.status==='active').length;
+    const suspended = keys.filter(k=>k.status==='suspended').length;
+    document.getElementById('st-total').textContent     = keys.length;
+    document.getElementById('st-active').textContent    = active;
+    document.getElementById('st-suspended').textContent = suspended;
+    document.getElementById('nav-keys-count').textContent = keys.length;
+
+    if (!keys.length) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="empty-icon">🗝️</div>No keys yet. Generate one!</div></td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = keys.map(k => {
+      const used = counts[k.key] || 0;
+      const pct  = Math.min((used/k.max_devices)*100, 100);
+      const full = used >= k.max_devices;
+      const active = k.status === 'active';
+      const by = k.created_by || 'Admin';
+
+      return `<tr>
+        <td>
+          <div class="key-mono">${k.key}</div>
+          <div class="created-by-tag">👤 ${by}</div>
+        </td>
+        <td>
+          <span class="badge ${active?'badge-active':'badge-suspended'}">
+            <span class="badge-dot"></span>${k.status}
+          </span>
+        </td>
+        <td>
+          <div class="slot-wrap">
+            <div class="slot-bar"><div class="slot-fill${full?' full':''}" style="width:${pct}%"></div></div>
+            <span class="slot-text">${used}/${k.max_devices}</span>
+          </div>
+        </td>
+        <td>${k.label ? `<span class="label-chip">${k.label}</span>` : '<span class="tm">—</span>'}</td>
+        <td class="tm">${fmtDate(k.created_at)}</td>
+        <td>
+          <div class="actions">
+            ${active
+              ? `<button class="btn btn-ghost btn-sm btn-warn" onclick="suspendKey('${k.key}')">Suspend</button>`
+              : `<button class="btn btn-ghost btn-sm" onclick="reactivateKey('${k.key}')">Reactivate</button>`
+            }
+            <button class="btn btn-ghost btn-sm" onclick="resetDevices('${k.key}')">Reset</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteKey('${k.key}')">✕</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch(e) {
+    if (!silent) tbody.innerHTML = `<tr><td colspan="6"><div class="empty" style="color:var(--red)">${e.message}</div></td></tr>`;
+  }
+}
+
+// ════ Generate ═══════════════════════════════════════════
+async function generateKeys() {
+  const count   = parseInt(document.getElementById('gen-count').value)||1;
+  const maxDevs = parseInt(document.getElementById('gen-max').value)||1;
+  const label   = document.getElementById('gen-label').value.trim();
+  const rows = Array.from({length:count}, () => ({
+    key: genKey(), max_devices: maxDevs, status: 'active', created_by: currentUser,
+    ...(label ? {label} : {})
+  }));
+  try {
+    await sb('license_keys', {method:'POST', body:rows, prefer:'return=representation'});
+    closeModal('modal-gen');
+    document.getElementById('gen-label').value = '';
+    document.getElementById('gen-count').value = '1';
+    toast(`Generated ${count} key${count>1?'s':''} 🗝️`);
+    loadKeys();
+  } catch(e) { toast(e.message, true); }
+}
+
+// ════ Key actions ═════════════════════════════════════════
+async function suspendKey(key) {
+  if (!confirm(`Suspend ${key}?`)) return;
+  await sb('license_keys', {method:'PATCH', query:`key=eq.${key}`, body:{status:'suspended'}});
+  toast('Key suspended 🚫'); loadKeys();
+}
+async function reactivateKey(key) {
+  await sb('license_keys', {method:'PATCH', query:`key=eq.${key}`, body:{status:'active'}});
+  toast('Key reactivated ✅'); loadKeys();
+}
+async function resetDevices(key) {
+  if (!confirm(`Free all device slots for ${key}?`)) return;
+  await sb('devices', {method:'DELETE', query:`license_key=eq.${key}`});
+  toast('Devices reset 💻'); loadKeys();
+}
+async function deleteKey(key) {
+  if (!confirm(`Permanently delete ${key}?`)) return;
+  await sb('license_keys', {method:'DELETE', query:`key=eq.${key}`});
+  toast('Key deleted'); loadKeys();
+}
+
+// ════ Devices ════════════════════════════════════════════
+async function lookupDevices() {
+  const key = document.getElementById('dev-input').value.trim();
+  const el  = document.getElementById('device-list');
+  if (!key) return;
+  el.innerHTML = '<div class="empty"><div class="spinner"></div>Loading…</div>';
+  try {
+    const devices = await sb('devices', {query:`license_key=eq.${key}&order=registered_at.asc`});
+    if (!devices.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>No devices registered for this key.</div>';
+      return;
+    }
+    el.innerHTML = devices.map(d => `
+      <div class="device-card">
+        <div class="device-ico">💻</div>
+        <div>
+          <div class="device-name">${d.device_name || 'Unknown device'}</div>
+          <div class="device-hwid">${d.hwid.slice(0,36)}…</div>
+        </div>
+        <div class="device-date">${fmtDate(d.registered_at)}</div>
+      </div>`).join('');
+  } catch(e) {
+    el.innerHTML = `<div class="empty" style="color:var(--red)">${e.message}</div>`;
+  }
+}
+
+// ════ Team ═══════════════════════════════════════════════
+async function loadTeam(silent = false) {
+  const el = document.getElementById('members-list');
+  if (!silent) el.innerHTML = '<div class="empty"><div class="spinner"></div>Loading…</div>';
+
+  try {
+    const [members, keys] = await Promise.all([
+      sb('team_members', {query:'order=invited_at.asc'}),
+      sb('license_keys',  {query:'select=created_by'})
+    ]);
+
+    document.getElementById('nav-team-count').textContent = members.length;
+
+    // Count keys per member + admin
+    const keyCounts = {};
+    keys.forEach(k => {
+      const by = k.created_by || 'Admin';
+      keyCounts[by] = (keyCounts[by]||0) + 1;
+    });
+
+    if (!members.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">👥</div>No team members yet. Create an invite link!</div>';
+      return;
+    }
+
+    el.innerHTML = members.map(m => `
+      <div class="member-card">
+        <div class="member-avatar">${initial(m.name)}</div>
+        <div>
+          <div class="member-name">${m.name}</div>
+          <div class="member-meta">Invited ${fmtDate(m.invited_at)}</div>
+        </div>
+        <div class="member-keys">
+          <div class="member-key-count">${keyCounts[m.name]||0}</div>
+          <div class="member-key-label">Keys Created</div>
+        </div>
+        <div style="margin-left:12px">
+          <button class="btn btn-danger btn-sm" onclick="removeMember('${m.name}')">✕</button>
+        </div>
+      </div>`).join('');
+  } catch(e) {
+    if (!silent) el.innerHTML = `<div class="empty" style="color:var(--red)">${e.message}</div>`;
+  }
+}
+
+// ════ Invite link ═════════════════════════════════════════
+async function createInviteLink() {
+  const name = document.getElementById('inv-name').value.trim();
+  if (!name) { toast('Enter a name first', true); return; }
+
+  try {
+    // Register in team_members table (upsert-style: ignore if exists)
+    await sb('team_members', {
+      method: 'POST',
+      body: {name},
+      prefer: 'return=representation,resolution=merge-duplicates'
+    });
+
+    // Build the invite URL — encode credentials + name in hash (never hits a server)
+    const payload  = btoa(JSON.stringify({u: SB_URL, k: SB_KEY, n: name}));
+    const link     = `${location.href.split('#')[0]}#inv=${payload}`;
+
+    document.getElementById('gen-link-out').value = link;
+    document.getElementById('gen-link-section').classList.add('visible');
+    document.getElementById('inv-gen-btn').textContent = 'Regenerate';
+    loadTeam();
+    toast(`Invite link created for ${name} 🔗`);
+  } catch(e) { toast(e.message, true); }
+}
+
+async function removeMember(name) {
+  if (!confirm(`Remove ${name} from team? Their keys will remain.`)) return;
+  await sb('team_members', {method:'DELETE', query:`name=eq.${name}`});
+  toast(`Removed ${name}`);
+  loadTeam();
+}
+
+function copyInviteLink() {
+  const input = document.getElementById('gen-link-out');
+  input.select();
+  navigator.clipboard.writeText(input.value).then(() => toast('Link copied! 📋'));
+}
+
+function resetInviteModal() {
+  document.getElementById('inv-name').value = '';
+  document.getElementById('gen-link-out').value = '';
+  document.getElementById('gen-link-section').classList.remove('visible');
+  document.getElementById('inv-gen-btn').textContent = 'Generate Link';
+}
+
+// ════ Modal helpers ══════════════════════════════════════
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target===o) { o.classList.remove('open'); resetInviteModal(); } });
+});
+
+// ════ Toast ══════════════════════════════════════════════
+let toastT;
+function toast(msg, isErr = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = 'show' + (isErr ? ' err' : '');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.className = ''; }, 2800);
+}
+</script>
+</body>
+</html>
